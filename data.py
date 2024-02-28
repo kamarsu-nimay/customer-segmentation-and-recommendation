@@ -25,9 +25,6 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.metrics import precision_score, recall_score, average_precision_score
 
 
-# In[57]:
-
-
 # Generate demographic information
 customer_ids = range(1, 5001)
 ages = [random.randint(18, 75) for _ in customer_ids]
@@ -78,8 +75,6 @@ product_interactions_data = pd.DataFrame({
 })
 
 
-# In[58]:
-
 
 # Save data to CSV files
 purchase_data.to_csv('purchase_history.csv', index=False)
@@ -87,34 +82,11 @@ browsing_data.to_csv('browsing_behavior.csv', index=False)
 product_interactions_data.to_csv('product_interactions.csv', index=False)
 
 
-# In[59]:
-
 
 # Load the datasets
 purchase_data = pd.read_csv('purchase_history.csv')
 browsing_data = pd.read_csv('browsing_behavior.csv')
 product_interactions_data = pd.read_csv('product_interactions.csv')
-
-
-# In[60]:
-
-
-purchase_data.head()
-
-
-# In[61]:
-
-
-browsing_data.head()
-
-
-# In[62]:
-
-
-product_interactions_data.head()
-
-
-# In[64]:
 
 
 # Check for missing values in each dataset
@@ -126,22 +98,14 @@ print("\nMissing Values in Product Interactions Data:")
 print(product_interactions_data.isnull().sum())
 
 
-# In[65]:
-
 
 # Check for outliers or unusual values
 print("\nPurchase Data Summary:")
 purchase_data.describe()
 
 
-# In[66]:
-
-
 print("\nBrowsing Data Summary:")
 browsing_data.describe()
-
-
-# In[67]:
 
 
 print("\nProduct Interactions Data Summary:")
@@ -149,9 +113,6 @@ product_interactions_data.describe()
 
 
 # #  Feature Engineering
-
-# In[68]:
-
 
 # Purchase Data
 # Feature Engineering
@@ -170,7 +131,6 @@ print("Preprocessed Purchase Data:")
 purchase_data.head()
 
 
-# In[69]:
 
 
 # Browsing Data
@@ -183,8 +143,6 @@ browsing_data[['Pages_Visited', 'Time_Spent']] = scaler.fit_transform(browsing_d
 print("\nPreprocessed Browsing Data:")
 browsing_data.head()
 
-
-# In[75]:
 
 
 # Product Interactions Data
@@ -204,8 +162,6 @@ print(product_interactions_data.head())
 
 # # Purchase Data
 
-# In[76]:
-
 
 # Distribution of purchase amounts
 plt.figure(figsize=(10, 6))
@@ -215,8 +171,6 @@ plt.xlabel('Purchase Amount')
 plt.ylabel('Frequency')
 plt.show()
 
-
-# In[77]:
 
 
 # Distribution of quantities
@@ -228,8 +182,6 @@ plt.ylabel('Frequency')
 plt.show()
 
 
-# In[78]:
-
 
 # Distribution of total purchase amounts
 plt.figure(figsize=(10, 6))
@@ -240,7 +192,6 @@ plt.ylabel('Frequency')
 plt.show()
 
 
-# In[79]:
 
 
 # Relationship between purchase amount and quantity
@@ -254,8 +205,6 @@ plt.show()
 
 # # Browsing Data
 
-# In[80]:
-
 
 # Distribution of pages visited
 plt.figure(figsize=(10, 6))
@@ -266,8 +215,6 @@ plt.ylabel('Frequency')
 plt.show()
 
 
-# In[81]:
-
 
 # Distribution of time spent
 plt.figure(figsize=(10, 6))
@@ -277,8 +224,6 @@ plt.xlabel('Time Spent')
 plt.ylabel('Frequency')
 plt.show()
 
-
-# In[82]:
 
 
 # Relationship between pages visited and time spent
@@ -292,9 +237,6 @@ plt.show()
 
 # # Product Interactions Data
 
-# In[83]:
-
-
 # Distribution of product ratings
 plt.figure(figsize=(10, 6))
 sns.histplot(product_interactions_data['Average_Rating'], bins=5, kde=True)
@@ -303,8 +245,6 @@ plt.xlabel('Average Rating')
 plt.ylabel('Frequency')
 plt.show()
 
-
-# In[84]:
 
 
 # Distribution of total reviews
@@ -315,8 +255,6 @@ plt.xlabel('Total Reviews')
 plt.ylabel('Frequency')
 plt.show()
 
-
-# In[85]:
 
 
 # Relationship between average rating and total reviews
@@ -329,8 +267,6 @@ plt.show()
 
 
 # # K-mean clustering for customer segmentation 
-
-# In[86]:
 
 
 # Combine relevant features for clustering
@@ -347,8 +283,6 @@ for i in range(2, max_clusters + 1):
     silhouette_scores.append(silhouette_score(X, kmeans.labels_))
 
 
-# In[87]:
-
 
 # Plot the elbow method
 plt.figure(figsize=(10, 6))
@@ -359,8 +293,6 @@ plt.ylabel('Inertia')
 plt.show()
 
 
-# In[88]:
-
 
 # Plot the silhouette scores
 plt.figure(figsize=(10, 6))
@@ -370,8 +302,6 @@ plt.xlabel('Number of Clusters')
 plt.ylabel('Silhouette Score')
 plt.show()
 
-
-# In[89]:
 
 
 # Based on the elbow method and silhouette score, choose the optimal number of clusters
@@ -391,8 +321,6 @@ purchase_data[['Customer_ID', 'Segment_Kmeans']].head()
 
 # # Hierarchical Clustering for customer segmentation
 
-# In[90]:
-
 
 # Perform hierarchical clustering
 Z = linkage(X, method='ward')
@@ -405,8 +333,6 @@ plt.xlabel('Customer ID')
 plt.ylabel('Distance')
 plt.show()
 
-
-# In[91]:
 
 
 # Choose the optimal number of clusters based on dendrogram
@@ -421,8 +347,6 @@ purchase_data[['Customer_ID', 'Segment_Hierarchical']].head()
 
 
 # # Segment Profiling
-
-# In[92]:
 
 
 # Segment Profiling for K-means Clustering
@@ -440,9 +364,6 @@ segment_profiles_kmeans.rename(columns={
 
 print("Segment Profiles (K-means Clustering):")
 print(segment_profiles_kmeans)
-
-
-# In[93]:
 
 
 # Segment Profiling for Hierarchical Clustering
@@ -464,7 +385,6 @@ print(segment_profiles_hierarchical)
 
 # # Recommendation System Model with Singular Value Decomposition (Turncated)
 
-# In[94]:
 
 
 # Prepare the historical data on customer-product interactions
@@ -484,9 +404,6 @@ rmse = mean_squared_error(X_test, predictions, squared=False)
 print("RMSE (Root Mean Squared Error):", rmse)
 
 
-# In[95]:
-
-
 # Generate recommendations for a sample customer
 sample_customer_id = 1509  # Adjust as needed
 sample_customer_index = X.index.get_loc(sample_customer_id)
@@ -499,8 +416,6 @@ for product_index, predicted_rating in top_recommendations:
 
 
 # # Evaluation
-
-# In[96]:
 
 
 # Prepare data for evaluation
@@ -551,40 +466,3 @@ avg_avg_precision = sum(average_precision_scores) / len(average_precision_scores
 print("Average Precision:", avg_precision)
 print("Average Recall:", avg_recall)
 print("Average Mean Average Precision:", avg_avg_precision)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
